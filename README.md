@@ -93,22 +93,22 @@ DEBUG = True                             # Enable debug messages
 
 
 
-Flowchart:
+### Flowchart:
 <img width="2316" height="1560" alt="mermaid-diagram-2025-09-05-201824" src="https://github.com/user-attachments/assets/44842514-1ef3-461a-a9d0-bb029625f6a2" />
 
 
-Task 1-Sensor Read & Print (10 pts)
-• Read DHT22 every 5 seconds and print the temperature and humidity with 2
+### Task 1-Sensor Read & Print 
+- • Read DHT22 every 5 seconds and print the temperature and humidity with 2
 decimals
 <img width="702" height="503" alt="Screenshot 2025-09-05 192601" src="https://github.com/user-attachments/assets/57dd45e6-9368-4f3d-b246-27ad9d3a5667" />
 
-Task 2-Telegram Send (15 pts)
-• Implement send_message() and post a test message to your group.
+### Task 2-Telegram Send 
+- • Implement send_message() and post a test message to your group.
 <img width="1274" height="1211" alt="Screenshot 2025-09-05 193250" src="https://github.com/user-attachments/assets/2af8e62d-0917-4229-9bd8-f994eb14ddfa" />
 
-Task 3-Bot Command (15 pts)
-• Implement /status to reply with current T/H and relay state.
-• Implement /on and /off to control the relay.
+### Task 3-Bot Command (15 pts)
+- • Implement /status to reply with current T/H and relay state.
+- • Implement /on and /off to control the relay.
 
 <img width="1270" height="808" alt="Screenshot 2025-09-05 193621" src="https://github.com/user-attachments/assets/3d147cb3-b5db-427d-a0bd-af439b3cd3b1" />
 status command
@@ -117,11 +117,11 @@ status command
 /on and /off command
 
 
-Task 4-Bot Command (20 pts)
-• No messages while T < 30 °C.
-• If T ≥ 30 °C and relay is OFF, send an alert every loop (5 s) until /on is
+### Task 4-Bot Command (20 pts)
+- • No messages while T < 30 °C.
+- • If T ≥ 30 °C and relay is OFF, send an alert every loop (5 s) until /on is
 received.
-• After /on, stop alerts. When T < 30 °C, turn relay OFF automatically and send
+- • After /on, stop alerts. When T < 30 °C, turn relay OFF automatically and send
 a one-time “auto-OFF” notice.
 
 [Watch Demo](https://drive.google.com/file/d/1KiACUyVzblg5Oj_PIu9NqFlMq9GZxGU3/view?usp=sharing)
