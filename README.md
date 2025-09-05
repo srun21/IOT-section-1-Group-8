@@ -15,11 +15,11 @@ This project creates an ESP32-based temperature monitoring system that sends ale
 ---
 
 ## Hardware Requirements
-ESP32 Development Board = 1
-DHT22 Temperature/Humidity Sensor = 1
-Relay Module 5V single-channel relay = 1 
-Jumper Wires Male-to-male and male-to-female = 6
-ESP32 Shield Expansion board = 1
+- ESP32 Development Board = 1
+- DHT22 Temperature/Humidity Sensor = 1
+- Relay Module 5V single-channel relay = 1 
+- Jumper Wires Male-to-male and male-to-female = 6
+- ESP32 Shield Expansion board = 1
 
 ---
 
@@ -43,9 +43,6 @@ ESP32 Shield Expansion board = 1
 3. **Send a test message** in the group
 4. **Visit URL**: `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates`
 5. **Find your group chat ID** (negative number like `-1234567890`)
-
-```
-```
 
 ---
 
