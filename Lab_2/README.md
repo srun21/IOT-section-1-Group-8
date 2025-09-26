@@ -1,25 +1,40 @@
 # IOT-section-1-Group-8
 
 
-# ESP32 DHT22 Telegram Bot - Configuration Guide
+ESP32 IoT Webserver with LED, Sensors, and LCD Control – Configuration Guide
+Overview
 
-## Overview
-This project creates an ESP32-based temperature monitoring system that sends alerts via Telegram and allows remote relay control.
+This project builds an ESP32-based IoT system using MicroPython that integrates a web interface and an LCD display. Users can control an LED, monitor real-time sensor values (temperature, humidity, and distance), and send custom messages to the LCD through a built-in webserver.
 
-## Features
-- **Real-time monitoring**: DHT22 sensor readings every 5 seconds
-- **Telegram integration**: Bot commands and automatic alerts  
-- **Smart relay control**: Temperature-based automation with manual override
-- **Robust operation**: Auto-reconnect WiFi, error handling, crash recovery
+Features
 
----
+Web-based control: Simple HTML page served by ESP32 for remote interaction
 
-## Hardware Requirements
-- ESP32 Development Board = 1
-- DHT22 Temperature/Humidity Sensor = 1
-- Relay Module 5V single-channel relay = 1 
-- Jumper Wires Male-to-male and male-to-female = 6
-- ESP32 Shield Expansion board = 1
+LED control: Toggle LED ON/OFF via web buttons
+
+Sensor monitoring: Read temperature & humidity (DHT11) and distance (HC-SR04)
+
+LCD integration: Display selected sensor values or custom messages on a 16×2 I²C LCD
+
+Two-way interaction: Users can enter text in a web textbox and send it directly to LCD
+
+Hardware Requirements
+
+ESP32 Development Board (MicroPython firmware flashed) = 1
+
+DHT11 Temperature/Humidity Sensor = 1
+
+HC-SR04 Ultrasonic Distance Sensor = 1
+
+16×2 LCD with I²C backpack = 1
+
+LED + Resistor (220 Ω) = 1
+
+Breadboard and Jumper Wires = Several
+
+USB Cable + Laptop with Thonny IDE = 1
+
+Wi-Fi Network
 
 ---
 
