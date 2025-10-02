@@ -13,8 +13,6 @@ A MicroPython-based IoT system for ESP32 that integrates sensor monitoring, LED 
 - [Running the Server](#running-the-server)
 - [Usage Instructions](#usage-instructions)
 - [Project Structure](#project-structure)
-- [Troubleshooting](#troubleshooting)
-- [Demo & Evidence](#demo--evidence)
 
 ## Overview
 
