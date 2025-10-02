@@ -1,149 +1,350 @@
-# IOT-section-1-Group-8
+# ESP32 IoT System with Web Interface and LCD Display
 
+A MicroPython-based IoT system for ESP32 that integrates sensor monitoring, LED control, and LCD display functionality through a user-friendly web interface.
 
-ESP32 IoT Webserver with LED, Sensors, and LCD Control – Configuration Guide
-Overview
+## 📋 Table of Contents
 
-This project builds an ESP32-based IoT system using MicroPython that integrates a web interface and an LCD display. Users can control an LED, monitor real-time sensor values (temperature, humidity, and distance), and send custom messages to the LCD through a built-in webserver.
+- [Overview](#overview)
+- [Features](#features)
+- [Hardware Requirements](#hardware-requirements)
+- [Wiring Diagram](#wiring-diagram)
+- [Software Setup](#software-setup)
+- [Wi-Fi Configuration](#wi-fi-configuration)
+- [Running the Server](#running-the-server)
+- [Usage Instructions](#usage-instructions)
+- [Project Structure](#project-structure)
+- [Troubleshooting](#troubleshooting)
+- [Demo & Evidence](#demo--evidence)
 
-Features
+## Overview
 
-Web-based control: Simple HTML page served by ESP32 for remote interaction
+This project demonstrates an event-driven IoT system that bridges web-based controls with physical hardware. Users can control an LED, monitor environmental data from sensors, and send custom messages to an LCD display—all through a web browser interface.
 
-LED control: Toggle LED ON/OFF via web buttons
+## Features
 
-Sensor monitoring: Read temperature & humidity (DHT11) and distance (HC-SR04)
+-  **Web-Based Control Panel**: Intuitive HTML interface for device interaction
+-  **LED Control**: Toggle LED on/off from the web interface
+-  **Environmental Monitoring**: Real-time temperature and humidity readings from DHT11 sensor
+-  **Distance Measurement**: Ultrasonic distance sensing with HC-SR04
+-  **LCD Display Integration**: 16×2 I²C LCD for displaying sensor data and custom messages
+-  **Custom Messaging**: Send text from web interface directly to LCD
+-  **Selective Display**: Choose which sensor data to show on LCD via web buttons
 
-LCD integration: Display selected sensor values or custom messages on a 16×2 I²C LCD
+## Hardware Requirements
 
-Two-way interaction: Users can enter text in a web textbox and send it directly to LCD
+| Component | Quantity | Notes |
+|-----------|----------|-------|
+| ESP32 Development Board | 1 | With MicroPython firmware |
+| DHT11 Sensor | 1 | Temperature/Humidity |
+| HC-SR04 Ultrasonic Sensor | 1 | Distance measurement |
+| 16×2 LCD with I²C Backpack | 1 | I²C address 0x27 or 0x3F |
+| LED | 1 | Any color |
+| Resistor 220Ω-330Ω | 1 | For LED current limiting |
+| Breadboard | 1 | Standard size |
+| Jumper Wires | ~20 | Male-to-male |
+| USB Cable | 1 | For programming |
 
-Hardware Requirements
+## Wiring Diagram
+<img width="1134" height="584" alt="image" src="https://github.com/user-attachments/assets/f0c831af-d86f-48aa-b4ec-36393ffa2f0a" />
 
-ESP32 Development Board (MicroPython firmware flashed) = 1
+## Software Setup
 
-DHT11 Temperature/Humidity Sensor = 1
+### Prerequisites
 
-HC-SR04 Ultrasonic Distance Sensor = 1
+- **Thonny IDE** (recommended) or any MicroPython-compatible IDE
+- **MicroPython firmware** for ESP32 ([Download here](https://micropython.org/download/esp32/))
+- **USB drivers** for ESP32 (CP210x or CH340 depending on your board)
 
-16×2 LCD with I²C backpack = 1
+### Step 1: Flash MicroPython Firmware
 
-LED + Resistor (220 Ω) = 1
+If MicroPython is not already installed on your ESP32:
 
-Breadboard and Jumper Wires = Several
+```bash
+# Install esptool
+pip install esptool
 
-USB Cable + Laptop with Thonny IDE = 1
+# Erase flash
+esptool.py --chip esp32 --port COM3 erase_flash
 
-Wi-Fi Network
-
----
-
-### Connection Diagram 
-<img width="1684" height="993" alt="Screenshot 2025-09-05 200706" src="https://github.com/user-attachments/assets/8fe07c41-f4b6-4172-9218-dc955959aff6" />
-
----
-
-## Telegram Bot Setup
-
-### Step 1: Create Telegram Bot
-1. **Open Telegram** and search for `@BotFather`
-2. **Start chat** with BotFather and send `/newbot`
-3. **Choose bot name** (e.g., "MyESP32Bot")
-4. **Choose username** (must end with 'bot', e.g., "myesp32_bot")
-5. **Copy the bot token** (format: `123456789:ABCdefGHIjklMNOpqrsTUVwxyz`)
-
-### Step 2: Get Group Chat ID
-1. **Create a Telegram group** or use existing one
-2. **Add your bot** to the group
-3. **Send a test message** in the group
-4. **Visit URL**: `https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates`
-5. **Find your group chat ID** (negative number like `-1234567890`)
-
----
-
-## ⚙️ Software Configuration
-
-### Step 1: Install MicroPython
-1. **Download** MicroPython firmware for ESP32
-2. **Flash firmware** using esptool:
-   ```bash
-   esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
-   esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-micropython.bin
-   ```
-
-### Step 2: Configure Code Settings
-Edit the configuration section in `main.py`:
-
-```python
-# ---------- USER CONFIG ----------
-WIFI_SSID     = "YourWiFiNetwork"        # Your WiFi name
-WIFI_PASSWORD = "YourWiFiPassword"       # Your WiFi password
-
-BOT_TOKEN     = "123456789:ABCdef..."    # Your bot token from BotFather
-GROUP_CHAT_ID = "-1234567890"            # Your group chat ID (negative number)
-
-RELAY_PIN = 2                            # GPIO pin for relay (default: 2)
-DHT_PIN = 4                              # GPIO pin for DHT22 (default: 4)
-TEMP_THRESHOLD = 30.0                    # Temperature threshold in °C
-RELAY_ACTIVE_LOW = False                 # True if relay activates on LOW signal
-DEBUG = True                             # Enable debug messages
-# ---------------------------------
+# Flash MicroPython (adjust port and firmware file)
+esptool.py --chip esp32 --port COM3 --baud 460800 write_flash -z 0x1000 esp32-micropython.bin
 ```
 
-### Step 3: Upload Code
-1. **Connect ESP32** to computer via USB
-2. **Use Thonny IDE** or similar tool
-3. **Upload** `main.py` to ESP32
-4. **Reset** ESP32 to start program
+**Note**: Replace `COM3` with your actual port (`COM3`, `COM4` on Windows or `/dev/ttyUSB0` on Linux/Mac).
+
+### Step 2: Clone This Repository
+
+```bash
+git clone https://github.com/yourusername/esp32-iot-lab.git
+cd esp32-iot-lab
+```
+
+### Step 3: Install Required Libraries
+
+The project uses the following MicroPython libraries (included in the repo):
+
+- `lcd_i2c.py` - I²C LCD driver
+- `dht.py` - DHT sensor library (built-in to MicroPython)
+
+### Step 4: Upload Files to ESP32
+
+Using **Thonny IDE**:
+
+1. Open Thonny and connect to ESP32
+2. Select **Run** → **Configure interpreter**
+3. Choose **MicroPython (ESP32)** and select your port
+4. Upload the following files to the ESP32:
+   - `main.py`
+   - `boot.py`
+   - `webserver.py`
+   - `lcd_i2c.py`
+   - `sensor_handler.py`
+   - `index.html`
+
+## Wi-Fi Configuration
+
+### Method 1: Edit boot.py (Recommended)
+
+1. Open `boot.py` in your editor
+2. Replace the Wi-Fi credentials:
+
+```python
+# Wi-Fi Configuration
+SSID = "YourWiFiName"          # Replace with your Wi-Fi network name
+PASSWORD = "YourWiFiPassword"   # Replace with your Wi-Fi password
+```
+
+3. Save and upload to ESP32
+
+**Important Notes**:
+- ESP32 only supports **2.4GHz Wi-Fi** networks (not 5GHz)
+- Ensure your network is not using enterprise authentication
+- Hidden SSIDs may require additional configuration
+
+## Running the Server
+
+### Starting the Server
+
+1. **Connect ESP32** to your computer via USB
+2. **Open Thonny** or your serial monitor (115200 baud)
+3. **Press the EN/RST button** on ESP32 or run `main.py`
+
+### Expected Boot Sequence
+
+You should see output similar to this:
+
+```
+====================================
+ESP32 IoT System Starting...
+====================================
+
+[WIFI] Connecting to 'YourWiFiName'...
+[WIFI] Connected!
+[WIFI] IP Address: 192.168.1.100
+[WIFI] Subnet Mask: 255.255.255.0
+[WIFI] Gateway: 192.168.1.1
+
+[LCD] Initializing I2C LCD...
+[LCD] LCD Ready at address 0x27
+
+[SENSORS] Initializing DHT11 on GPIO 15...
+[SENSORS] Initializing HC-SR04 (TRIG=GPIO5, ECHO=GPIO18)...
+[SENSORS] Sensors Ready
+
+[LED] LED initialized on GPIO 2
+
+[SERVER] Starting web server on port 80...
+[SERVER] Server running at http://192.168.1.100
+====================================
+Ready! Open browser to access the interface
+====================================
+```
+
+4. **Note the IP address** displayed (e.g., `192.168.1.100`)
+5. **Open a web browser** on any device connected to the same Wi-Fi network
+6. **Navigate to** `http://192.168.1.100` (use your actual IP)
+
+### Server Status Indicators
+
+- **LCD displays**: "System Ready" on Line 1, "IP: 192.168.1.100" on Line 2
+- **Serial monitor**: Shows connection logs and request handling
+- **LED**: May blink briefly during initialization
+
+## Usage Instructions
+
+### Accessing the Web Interface
+
+1. Open your web browser (Chrome, Firefox, Safari, Edge)
+2. Enter the ESP32's IP address in the URL bar
+3. You should see the control panel interface
+
+![Web Interface Screenshot](docs/web_interface.png)
+
+### Feature Guide
+
+#### 1️⃣Task1 : LED Control
+
+**Location**: Top section of web interface
+
+**How to use**:
+- Click **"Turn LED ON"** button → LED lights up, button changes to "Turn LED OFF"
+- Click **"Turn LED OFF"** button → LED turns off, button changes to "Turn LED ON"
+
+**What happens**:
+- Web page sends GET request to `/led/on` or `/led/off`
+- ESP32 sets GPIO 2 HIGH or LOW
+- Button updates to reflect current state
+
+
+#### 2️⃣ Task2 : Sensor Monitoring
+
+**Location**: Middle section showing real-time readings
+
+**Available readings**:
+- **Temperature**: Displays current temperature in °C
+- **Humidity**: Displays current humidity in %
+- **Distance**: Displays ultrasonic distance in cm
+
+**How it works**:
+- Page automatically refreshes sensor data every 2 seconds
+- Data fetched from `/sensors` endpoint
+- No button press needed - automatic updates
+
+
+#### 3️⃣ Task 3 : Display Distance and Temperature on LCD
+
+**Location**: Sensor control buttons section
+
+**How to use**:
+1. Click **"Show Temperature on LCD"** button
+2. LCD immediately displays:
+   - Line 2: "23.5 C" (current reading)
+
+**Example LCD output**:
+```   
+ Temp: 23.5 C          
+```
+
+#### Display Distance on LCD
+
+**Location**: Sensor control buttons section
+
+**How to use**:
+1. Click **"Show Distance on LCD"** button
+2. LCD immediately displays:
+   - Line 1: "Distance:"  "15.3 cm"
+
+**Example LCD output**:
+```
+Distance: 15.3 cm             
+```
+
+![LCD Sensor Display](docs/lcd_sensors.jpg)
+
+#### 4️⃣ Send Custom Message to LCD
+
+**Location**: Bottom section with text input
+
+**How to use**:
+1. Click in the **text input box**
+2. Type your message (up to 32 characters recommended)
+3. Click **"Send to LCD"** button
+4. Your message appears on the LCD
+
+**Message formatting**:
+- Messages longer than 16 characters automatically scroll 
+- Special characters supported
+- Clears previous content
+
+**Example**:
+- Input: `Hello IoT World!`
+- LCD displays:
+```
+Hello IoT World!
+                
+```
+
+- Input: `Temperature: 25C Humidity: 60%`
+- LCD displays:
+```
+->Temperature: 25C Humidity: 60% ->   
+```
+
+![Custom Message Demo](docs/custom_message.gif)
+
+### Complete Usage Workflow Example
+
+1. **Start the system** → LCD shows "System Ready"
+2. **Open web browser** → Navigate to ESP32 IP address
+3. **Turn LED on** → Verify LED lights up
+4. **Check sensor readings** → Observe temperature, humidity, distance
+5. **Show temperature on LCD** → Click button, verify LCD display
+6. **Show distance on LCD** → Click button, verify LCD display
+7. **Send custom message** → Type "Hello World", click send, verify LCD
+8. **Turn LED off** → Click button, verify LED turns off
+
+
+## Project Structure
+
+```
+esp32-iot-lab/
+├── README.md                      # This file
+│
+├── src/                           # Source code
+│   ├── main.py                    # Main application entry point
+│   ├── boot.py                    # Wi-Fi connection and boot config
+│   ├── webserver.py               # Web server implementation
+│   ├── lcd_i2c.py                 # I²C LCD display driver
+│   ├── sensor_handler.py          # DHT11 and HC-SR04 handlers
+│   └── index.html                 # Web interface HTML
+│
+├── docs/                          # Documentation and media
+│   ├── wiring_diagram.png         # Circuit schematic
+│   ├── hardware_front.jpg         # Hardware photo - front
+│   ├── hardware_detail.jpg        # Hardware photo - connections
+│   ├── web_interface.png          # Web UI screenshot
+│   ├── led_control.gif            # LED control demo
+│   ├── sensor_readings.png        # Sensor display screenshot
+│   ├── lcd_sensors.jpg            # LCD showing sensor data
+│   ├── custom_message.gif         # Custom message demo
+│   ├── demo_video.mp4             # Full system demonstration
+│   └── lab_report.pdf             # Complete lab documentation
+│
+└── examples/                      # Example configurations
+    ├── config_template.py         # Configuration template
+    └── test_sensors.py            # Sensor testing script
+```
+
+
+## Demo & Evidence
+
+### 📹 Video Demonstration
+
+Watch the complete system in action:
+
+[![ESP32 IoT System Demo](docs/video_thumbnail.png)](docs/demo_video.mp4)
+
+
+## Learning Outcomes
+
+This project demonstrates:
+
+- ✅ MicroPython web server implementation
+- ✅ HTML-based hardware control interfaces
+- ✅ Sensor data acquisition and processing
+- ✅ I²C communication protocol
+- ✅ Event-driven IoT system design
+- ✅ Integration of multiple hardware components
+- ✅ RESTful API design principles
+- ✅ Network communication in embedded systems
+
+
 
 ---
 
-## Bot Commands
+**Course**: Introduction to IOT
+**Institution**: American University of Phnom Penh
+**Semester**: Fall 2025  
+**Lab**: ESP32 Web Interface and LCD Integration
 
-
- `/status`  Show current temperature, humidity, and relay state => `Temperature: 25.67°C`<br>`Humidity: 60.23%`<br>`Relay: OFF` |
- `/on` = Turn relay ON and stop temperature alerts =>`Relay turned ON - Alerts stopped` 
- `/off` = Turn relay OFF and stop all alerts => `Relay turned OFF` 
-
-
-
-
-### Flowchart:
-<img width="2316" height="1560" alt="mermaid-diagram-2025-09-05-201824" src="https://github.com/user-attachments/assets/44842514-1ef3-461a-a9d0-bb029625f6a2" />
-
-
-### Task 1-Sensor Read & Print 
-- Read DHT22 every 5 seconds and print the temperature and humidity with 2
-decimals
-<img width="702" height="503" alt="Screenshot 2025-09-05 192601" src="https://github.com/user-attachments/assets/57dd45e6-9368-4f3d-b246-27ad9d3a5667" />
-
-### Task 2-Telegram Send 
-- Implement send_message() and post a test message to your group.
-<img width="1274" height="1211" alt="Screenshot 2025-09-05 193250" src="https://github.com/user-attachments/assets/2af8e62d-0917-4229-9bd8-f994eb14ddfa" />
-
-### Task 3-Bot Command (15 pts)
-- Implement /status to reply with current T/H and relay state.
-- Implement /on and /off to control the relay.
-
-<img width="1270" height="808" alt="Screenshot 2025-09-05 193621" src="https://github.com/user-attachments/assets/3d147cb3-b5db-427d-a0bd-af439b3cd3b1" />
-status command
-
-<img width="1196" height="847" alt="Screenshot 2025-09-05 193640" src="https://github.com/user-attachments/assets/443fd9db-7244-429d-aa1e-534fe93e712c" />
-/on and /off command
-
-
-### Task 4-Bot Command (20 pts)
-- No messages while T < 30 °C.
-- If T ≥ 30 °C and relay is OFF, send an alert every loop (5 s) until /on is
-received.
-- After /on, stop alerts. When T < 30 °C, turn relay OFF automatically and send
-a one-time “auto-OFF” notice.
-
-[Watch Demo](https://drive.google.com/file/d/1KiACUyVzblg5Oj_PIu9NqFlMq9GZxGU3/view?usp=sharing)
-
-
-
-
-
-
-
+---
