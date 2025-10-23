@@ -2,7 +2,8 @@
 
 **A complete guide to building an weather dashboard using ESP32, BMP280 sensor, and cloud integration**
 
-![Project Banner](image/connection.png)
+![Project Banner](<img width="1042" height="531" alt="image" src="https://github.com/user-attachments/assets/0d170740-05c6-4c18-a603-ca570d2b4fe1" />
+)
 
 
 ## 🎯 Introduction
@@ -389,13 +390,7 @@ if __name__ == "__main__":
   - Datasource: Your device → altitude
   - Units: meters
 
-![ThingsBoard Dashboard](image/thingsboard.png)
 
----
-
-
-
----
 
 ## 📚 Additional Resources
 
@@ -410,11 +405,6 @@ if __name__ == "__main__":
 - [MQTT Explorer](https://mqtt-explorer.com/)
 - [ESP32 Flasher Tool](https://github.com/espressif/esptool)
 
----
-
-
-
----
 
 ## Video demo
 
