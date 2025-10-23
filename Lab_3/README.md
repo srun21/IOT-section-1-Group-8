@@ -2,7 +2,7 @@
 
 **A complete guide to building an weather dashboard using ESP32, BMP280 sensor, and cloud integration**
 
-![Project Banner](<img width="1042" height="531" alt="image" src="https://github.com/user-attachments/assets/0d170740-05c6-4c18-a603-ca570d2b4fe1" />
+(<img width="1042" height="531" alt="image" src="https://github.com/user-attachments/assets/0d170740-05c6-4c18-a603-ca570d2b4fe1" />
 )
 
 
