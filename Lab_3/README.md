@@ -246,7 +246,7 @@ if __name__ == "__main__":
    - Navigate to your topic path (e.g., `aupp/lab/`)
    - View real-time data updates
 
-![MQTT Explorer Screenshot](image/mqtt.png)
+<img width="1280" height="593" alt="mqtt" src="https://github.com/user-attachments/assets/b7f9e9e4-8788-4367-9c18-4494db318a5f" />
 
 ---
 
