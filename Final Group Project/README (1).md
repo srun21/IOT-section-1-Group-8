@@ -2,10 +2,6 @@
 
 An intelligent IoT-based package delivery system that automatically detects, secures, and notifies owners about package deliveries in real-time.
 
-![Project Status](https://img.shields.io/badge/status-completed-success)
-![Platform](https://img.shields.io/badge/platform-ESP32-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 ## 📋 Table of Contents
 
 - [Overview](#overview)
@@ -439,20 +435,13 @@ Contributions are welcome! Please follow these steps:
 - Use meaningful variable names
 - Comment complex logic
 - Test thoroughly before submitting
-
-## 👥 Authors
-
-**CHENG Mengsrun** - *Lead Developer*
-**LIM Bunheng** - *Hardware Engineer*
+r*
 
 **Course**: ICT 360 - Introduction to Internet of Things  
 **Institution**: American University of Phnom Penh  
 **Instructor**: Theara SENG  
 **Date**: December 9, 2025
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 🙏 Acknowledgments
 
@@ -461,12 +450,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - ESP32 community for extensive documentation
 - Node-RED community for automation examples
 
-## 📞 Contact
 
-For questions or support:
-- Open an issue in this repository
-- Email: [your.email@example.com]
-- Project Link: [https://github.com/yourusername/smart-delivery-box](https://github.com/yourusername/smart-delivery-box)
 
 ---
 
