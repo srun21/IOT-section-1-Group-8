@@ -1,0 +1,593 @@
+[
+    {
+        "id": "bdcad55bd6eeb2d7",
+        "type": "tab",
+        "label": "Smart Package Box",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "43c031483301d5fb",
+        "type": "telegram receiver",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "",
+        "bot": "telegram_bot",
+        "saveDataDir": "",
+        "filterCommands": false,
+        "hasinput": false,
+        "inputs": 0,
+        "handleallupdates": false,
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "671cca6a5ebfe6e3",
+                "324aa6574248c8a1",
+                "5b6793a8a7a88674"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "671cca6a5ebfe6e3",
+        "type": "debug",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Debug Telegram",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "324aa6574248c8a1",
+        "type": "function",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Save Chat ID",
+        "func": "if (msg.payload.chatId) {\n    flow.set('chatId', msg.payload.chatId);\n}\nreturn null;",
+        "outputs": 0,
+        "noerr": 0,
+        "x": 330,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "5b6793a8a7a88674",
+        "type": "switch",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Parse Command",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "/start",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/status",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/open",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/close",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/lock",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/unlock",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "/retrieve",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 7,
+        "x": 310,
+        "y": 200,
+        "wires": [
+            [
+                "7b7bb5a7f2d778ad"
+            ],
+            [
+                "c2ae4fcffb21be59"
+            ],
+            [
+                "9a41fb4576558d65"
+            ],
+            [
+                "cd1626960cf2b00e"
+            ],
+            [
+                "57ede731b1909604"
+            ],
+            [
+                "11bdeb0f046d38d3"
+            ],
+            [
+                "7a85ce5b1ecedff2"
+            ]
+        ]
+    },
+    {
+        "id": "7b7bb5a7f2d778ad",
+        "type": "function",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Start Response",
+        "func": "msg.payload = {\n    chatId: msg.payload.chatId,\n    type: 'message',\n    content: '🎉 Smart Box Ready!\\n\\nCommands:\\n/status\\n/open\\n/close\\n/lock\\n/unlock\\n/retrieve'\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 80,
+        "wires": [
+            [
+                "68abad58d9672f0a"
+            ]
+        ]
+    },
+    {
+        "id": "c2ae4fcffb21be59",
+        "type": "change",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "status",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "status",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 120,
+        "wires": [
+            [
+                "903145a93985aa1a",
+                "914f4a7616b668b2"
+            ]
+        ]
+    },
+    {
+        "id": "9a41fb4576558d65",
+        "type": "change",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "open",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "open",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 160,
+        "wires": [
+            [
+                "903145a93985aa1a",
+                "914f4a7616b668b2"
+            ]
+        ]
+    },
+    {
+        "id": "cd1626960cf2b00e",
+        "type": "change",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "close",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "close",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 200,
+        "wires": [
+            [
+                "903145a93985aa1a",
+                "914f4a7616b668b2"
+            ]
+        ]
+    },
+    {
+        "id": "57ede731b1909604",
+        "type": "change",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "lock",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "lock",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 240,
+        "wires": [
+            [
+                "903145a93985aa1a",
+                "914f4a7616b668b2"
+            ]
+        ]
+    },
+    {
+        "id": "11bdeb0f046d38d3",
+        "type": "change",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "unlock",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "unlock",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 530,
+        "y": 280,
+        "wires": [
+            [
+                "903145a93985aa1a",
+                "914f4a7616b668b2"
+            ]
+        ]
+    },
+    {
+        "id": "7a85ce5b1ecedff2",
+        "type": "change",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "retrieve",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "retrieve",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 540,
+        "y": 320,
+        "wires": [
+            [
+                "903145a93985aa1a",
+                "914f4a7616b668b2"
+            ]
+        ]
+    },
+    {
+        "id": "903145a93985aa1a",
+        "type": "mqtt out",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "To ESP32",
+        "topic": "smartbox/command",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt_broker",
+        "x": 740,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "914f4a7616b668b2",
+        "type": "debug",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Debug Command",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 760,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e27add3ac812bf8e",
+        "type": "mqtt in",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "",
+        "topic": "smartbox/status",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 400,
+        "wires": [
+            [
+                "91a5b6b3fb117589",
+                "2d368d99ce6fc48b"
+            ]
+        ]
+    },
+    {
+        "id": "91a5b6b3fb117589",
+        "type": "debug",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Debug Status",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "2d368d99ce6fc48b",
+        "type": "function",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Format Status",
+        "func": "const d = msg.payload;\nconst chatId = flow.get('chatId');\n\nif (!chatId) return null;\n\nlet txt = `📦 Box Status\\n\\n`;\ntxt += `Packages: ${d.package_count}\\n`;\ntxt += `Locked: ${d.door_locked ? 'Yes' : 'No'}\\n`;\ntxt += `Open: ${d.door_open ? 'Yes' : 'No'}\\n`;\ntxt += `Total: ${d.total_received}`;\n\nmsg.payload = {\n    chatId: chatId,\n    type: 'message',\n    content: txt\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 400,
+        "wires": [
+            [
+                "68abad58d9672f0a"
+            ]
+        ]
+    },
+    {
+        "id": "6e525ed0b342ac2c",
+        "type": "mqtt in",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "",
+        "topic": "smartbox/event",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 460,
+        "wires": [
+            [
+                "0d276456ef19263f",
+                "048c48829d5f6205"
+            ]
+        ]
+    },
+    {
+        "id": "0d276456ef19263f",
+        "type": "debug",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Debug Event",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 350,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "048c48829d5f6205",
+        "type": "function",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Format Event",
+        "func": "const d = msg.payload;\nconst chatId = flow.get('chatId');\n\nif (!chatId) return null;\n\nlet txt = '';\nif (d.event_type === 'PACKAGE_STOLEN') {\n    txt = `🚨 THEFT ALERT!\\n${d.package_id}`;\n} else {\n    txt = `Event: ${d.event_type}\\n${d.package_id || ''}`;\n}\n\nmsg.payload = {\n    chatId: chatId,\n    type: 'message',\n    content: txt\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 550,
+        "y": 460,
+        "wires": [
+            [
+                "68abad58d9672f0a"
+            ]
+        ]
+    },
+    {
+        "id": "7da7898dfba4c373",
+        "type": "mqtt in",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "",
+        "topic": "smartbox/package",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 520,
+        "wires": [
+            [
+                "5e27641148e192aa",
+                "62d5e8917143eb1e"
+            ]
+        ]
+    },
+    {
+        "id": "5e27641148e192aa",
+        "type": "debug",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Debug Package",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "62d5e8917143eb1e",
+        "type": "function",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "Format Package",
+        "func": "const d = msg.payload;\nconst chatId = flow.get('chatId');\n\nif (!chatId) return null;\n\nlet txt = '';\nif (d.action === 'RECEIVED') {\n    txt = `📬 Package Received!\\n\\nID: ${d.package_id}\\nSlot: ${d.slot}\\nTotal: ${d.total_count}`;\n} else {\n    txt = `✅ Package Retrieved\\n\\nID: ${d.package_id}`;\n}\n\nmsg.payload = {\n    chatId: chatId,\n    type: 'message',\n    content: txt\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 560,
+        "y": 520,
+        "wires": [
+            [
+                "68abad58d9672f0a"
+            ]
+        ]
+    },
+    {
+        "id": "68abad58d9672f0a",
+        "type": "telegram sender",
+        "z": "bdcad55bd6eeb2d7",
+        "name": "",
+        "bot": "telegram_bot",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 800,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "telegram_bot",
+        "type": "telegram bot",
+        "botname": "SmartBox Bot",
+        "usernames": "",
+        "chatids": "1241681783",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "nodered_smartbox",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "98a0ca600d432e39",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-telegrambot": "17.0.3"
+        }
+    }
+]

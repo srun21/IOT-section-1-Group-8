@@ -1,0 +1,369 @@
+[
+    {
+        "id": "1f17c2ed10db3796",
+        "type": "tab",
+        "label": "SmartBox InfluxDB Integration",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "3c9938e1cdb1a606",
+        "type": "mqtt in",
+        "z": "1f17c2ed10db3796",
+        "name": "Status Updates",
+        "topic": "smartbox/status",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 100,
+        "wires": [
+            [
+                "f539987e127c050d",
+                "d6572c48c1aaa155"
+            ]
+        ]
+    },
+    {
+        "id": "ea27bccb83476807",
+        "type": "mqtt in",
+        "z": "1f17c2ed10db3796",
+        "name": "Event Updates",
+        "topic": "smartbox/event",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 200,
+        "wires": [
+            [
+                "7138b999fc2f85db",
+                "ed57370a1bacb8b9",
+                "09da9bd4893a8736"
+            ]
+        ]
+    },
+    {
+        "id": "560c6965b7cbe088",
+        "type": "mqtt in",
+        "z": "1f17c2ed10db3796",
+        "name": "Package Updates",
+        "topic": "smartbox/package",
+        "qos": "0",
+        "datatype": "json",
+        "broker": "mqtt_broker",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 300,
+        "wires": [
+            [
+                "7f5c0f0318d0ac38",
+                "72200bfbd26eb20e",
+                "71f1ad95510461a3"
+            ]
+        ]
+    },
+    {
+        "id": "f539987e127c050d",
+        "type": "function",
+        "z": "1f17c2ed10db3796",
+        "name": "Format Status for InfluxDB",
+        "func": "const data = msg.payload;\n\n// InfluxDB v1 format\nmsg.payload = [\n    {\n        package_count: data.package_count,\n        door_locked: data.door_locked ? 1 : 0,\n        door_open: data.door_open ? 1 : 0,\n        total_received: data.total_received || 0\n    }\n];\n\n// Add tags\nmsg.payload[0].box_id = 'smartbox_01';\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 100,
+        "wires": [
+            [
+                "edadad9d3ee1d435"
+            ]
+        ]
+    },
+    {
+        "id": "7138b999fc2f85db",
+        "type": "function",
+        "z": "1f17c2ed10db3796",
+        "name": "Format Event for InfluxDB",
+        "func": "const data = msg.payload;\n\n// InfluxDB v1 format\nmsg.payload = [\n    {\n        event_type: data.event_type,\n        package_id: data.package_id || '',\n        package_count: data.package_count || 0,\n        slot: data.slot || 0,\n        event_value: 1\n    }\n];\n\n// Add tags\nmsg.payload[0].box_id = 'smartbox_01';\nmsg.payload[0].event_tag = data.event_type;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "ce074ffb83508ae7"
+            ]
+        ]
+    },
+    {
+        "id": "7f5c0f0318d0ac38",
+        "type": "function",
+        "z": "1f17c2ed10db3796",
+        "name": "Format Package for InfluxDB",
+        "func": "const data = msg.payload;\n\n// InfluxDB v1 format\nmsg.payload = [\n    {\n        package_id: data.package_id,\n        action: data.action,\n        slot: data.slot || 0,\n        total_count: data.total_count || 0,\n        package_value: 1\n    }\n];\n\n// Add tags\nmsg.payload[0].box_id = 'smartbox_01';\nmsg.payload[0].action_tag = data.action;\nmsg.payload[0].package_tag = data.package_id;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 300,
+        "wires": [
+            [
+                "7b233cc3a1950a9b"
+            ]
+        ]
+    },
+    {
+        "id": "edadad9d3ee1d435",
+        "type": "influxdb out",
+        "z": "1f17c2ed10db3796",
+        "influxdb": "74aa764ee1631fa5",
+        "name": "Write to box_status",
+        "measurement": "box_status",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 660,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "ce074ffb83508ae7",
+        "type": "influxdb out",
+        "z": "1f17c2ed10db3796",
+        "influxdb": "74aa764ee1631fa5",
+        "name": "Write to box_events",
+        "measurement": "box_events",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 660,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7b233cc3a1950a9b",
+        "type": "influxdb out",
+        "z": "1f17c2ed10db3796",
+        "influxdb": "74aa764ee1631fa5",
+        "name": "Write to package_tracking",
+        "measurement": "package_tracking",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 690,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "ed57370a1bacb8b9",
+        "type": "function",
+        "z": "1f17c2ed10db3796",
+        "name": "Format Event for Telegram",
+        "func": "const data = msg.payload;\nlet message = '';\nlet emoji = '';\n\nswitch(data.event_type) {\n    case 'PACKAGE_RECEIVED':\n        emoji = '📦';\n        message = `${emoji} *Package Received!*\\n\\n` +\n                  `📋 Package ID: \\`${data.package_id}\\`\\n` +\n                  `📍 Slot: ${data.slot}\\n` +\n                  `📊 Total Packages: ${data.package_count}\\n` +\n                  `🕐 Time: ${data.timestamp}`;\n        break;\n        \n    case 'PACKAGE_RETRIEVED':\n        emoji = '✅';\n        message = `${emoji} *Package Retrieved*\\n\\n` +\n                  `📋 Package ID: \\`${data.package_id}\\`\\n` +\n                  `🕐 Time: ${data.timestamp}`;\n        break;\n        \n    case 'PACKAGE_STOLEN':\n        emoji = '🚨';\n        message = `${emoji} *ALERT: Package Stolen!*\\n\\n` +\n                  `⚠️ Package ID: \\`${data.package_id}\\`\\n` +\n                  `🕐 Time: ${data.timestamp}\\n\\n` +\n                  `⚡ Immediate action required!`;\n        break;\n        \n    case 'ALL_PACKAGES_RETRIEVED':\n        emoji = '✅';\n        message = `${emoji} *All Packages Retrieved*\\n\\n` +\n                  `📦 Box is now empty\\n` +\n                  `🕐 Time: ${data.timestamp}`;\n        break;\n        \n    case 'SYSTEM_STOPPED':\n        emoji = '⏹️';\n        message = `${emoji} *System Stopped*\\n\\n` +\n                  `🕐 Time: ${data.timestamp}`;\n        break;\n        \n    default:\n        emoji = '📢';\n        message = `${emoji} *Event: ${data.event_type}*\\n` +\n                  `🕐 Time: ${data.timestamp}`;\n}\n\nmsg.payload = {\n    chatId: msg.payload.chatId || global.get('telegram_chat_id'),\n    type: 'message',\n    content: message,\n    options: {\n        parse_mode: 'Markdown'\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "203a32e644f821b9"
+            ]
+        ]
+    },
+    {
+        "id": "72200bfbd26eb20e",
+        "type": "function",
+        "z": "1f17c2ed10db3796",
+        "name": "Format Package for Telegram",
+        "func": "const data = msg.payload;\nlet message = '';\nlet emoji = '';\n\nif (data.action === 'RECEIVED') {\n    emoji = '📥';\n    message = `${emoji} *New Package Delivered!*\\n\\n` +\n              `📦 Package: \\`${data.package_id}\\`\\n` +\n              `📍 Slot: ${data.slot}\\n` +\n              `📊 Total in Box: ${data.total_count}\\n` +\n              `🕐 Time: ${data.timestamp}`;\n} else if (data.action === 'RETRIEVED') {\n    emoji = '📤';\n    message = `${emoji} *Package Picked Up*\\n\\n` +\n              `📦 Package: \\`${data.package_id}\\`\\n` +\n              `📍 Slot: ${data.slot}\\n` +\n              `📊 Remaining: ${data.total_count}\\n` +\n              `🕐 Time: ${data.timestamp}`;\n}\n\nmsg.payload = {\n    chatId: msg.payload.chatId || global.get('telegram_chat_id'),\n    type: 'message',\n    content: message,\n    options: {\n        parse_mode: 'Markdown'\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 500,
+        "wires": [
+            [
+                "203a32e644f821b9"
+            ]
+        ]
+    },
+    {
+        "id": "203a32e644f821b9",
+        "type": "telegram sender",
+        "z": "1f17c2ed10db3796",
+        "name": "Send to Telegram",
+        "bot": "telegram_bot",
+        "haserroroutput": false,
+        "outputs": 1,
+        "x": 680,
+        "y": 450,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d6572c48c1aaa155",
+        "type": "debug",
+        "z": "1f17c2ed10db3796",
+        "name": "Debug Status",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "09da9bd4893a8736",
+        "type": "debug",
+        "z": "1f17c2ed10db3796",
+        "name": "Debug Event",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 370,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "71f1ad95510461a3",
+        "type": "debug",
+        "z": "1f17c2ed10db3796",
+        "name": "Debug Package",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 380,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "mqtt_broker",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "nodered_smartbox",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "74aa764ee1631fa5",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "smartbox_data",
+        "name": "SmartBox InfluxDB",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "timeout": "",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "telegram_bot",
+        "type": "telegram bot",
+        "botname": "SmartBox Bot",
+        "usernames": "",
+        "chatids": "1241681783",
+        "baseapiurl": "",
+        "testenvironment": false,
+        "updatemode": "polling",
+        "pollinterval": "300",
+        "usesocks": false,
+        "sockshost": "",
+        "socksport": "6667",
+        "socksusername": "anonymous",
+        "sockspassword": "",
+        "bothost": "",
+        "botpath": "",
+        "localbothost": "",
+        "localbotport": "8443",
+        "publicbotport": "8443",
+        "privatekey": "",
+        "certificate": "",
+        "useselfsignedcertificate": false,
+        "sslterminated": false,
+        "verboselogging": false
+    },
+    {
+        "id": "03933ae2403bd97e",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-contrib-influxdb": "0.7.0",
+            "node-red-contrib-telegrambot": "17.0.3"
+        }
+    }
+]
