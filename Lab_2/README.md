@@ -318,7 +318,7 @@ esp32-iot-lab/
 
 Watch the complete system in action:
 
-[![ESP32 IoT System Demo](https://drive.google.com/file/d/1rcY6AtEul9S9YsR2Ri9AhAiE6g-fEOQz/view?usp=sharing)
+[Watch Demo](https://drive.google.com/file/d/1rcY6AtEul9S9YsR2Ri9AhAiE6g-fEOQz/view?usp=sharing)
 
 
 ## Learning Outcomes
