@@ -176,7 +176,6 @@ Ready! Open browser to access the interface
 2. Enter the ESP32's IP address in the URL bar
 3. You should see the control panel interface
 
-![Web Interface Screenshot](docs/web_interface.png)
 
 ### Feature Guide
 
@@ -237,7 +236,6 @@ Ready! Open browser to access the interface
 Distance: 15.3 cm             
 ```
 
-![LCD Sensor Display](docs/lcd_sensors.jpg)
 
 #### 4️⃣ Send Custom Message to LCD
 
@@ -320,7 +318,7 @@ esp32-iot-lab/
 
 Watch the complete system in action:
 
-[![ESP32 IoT System Demo](docs/video_thumbnail.png)](docs/demo_video.mp4)
+[![ESP32 IoT System Demo](https://drive.google.com/file/d/1rcY6AtEul9S9YsR2Ri9AhAiE6g-fEOQz/view?usp=sharing)
 
 
 ## Learning Outcomes
